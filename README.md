@@ -24,7 +24,7 @@ This project will used flask to return the sensors data to "http://yourip/node-0
 $ pip install flask RPi.GPIO board serial adafruit-blinka
 ```
 - Download the project to /home/pi
-- add this line to /ect/profile to let project auto run on boot
+- add this line to ```/ect/profile``` to let project auto run on boot
 ```bash
 $ sudo python3 /home/pi/Sensors/app.py &
 ```
