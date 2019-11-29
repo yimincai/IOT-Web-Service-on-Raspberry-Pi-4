@@ -30,20 +30,16 @@ def parse_temperature():
         return temperature_c, temperature_f
 
 # soil
-#GPIO SETUP
 channel = 21
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(channel, GPIO.IN)
+waterStatus = "Water not Detected"
  
 def callback(channel):
         if GPIO.input(channel):
-                print("---------------------------------------")
-                print("Water Detected!")
-                print("---------------------------------------")
+            waterStatus = "Water Detected"
         else:
-                print("---------------------------------------")
-                print("Water not Detected!")
-                print("---------------------------------------")
+            waterStatus = "Water not Detected"
 
 GPIO.add_event_detect(channel, GPIO.BOTH, bouncetime=300)  # let us know when the pin goes HIGH or LOW
                 
@@ -54,21 +50,11 @@ try:
 except ImportError:
     import ustruct as struct
 
-# Connect the sensor TX pin to the board/computer RX pin
-# For use with a microcontroller board:
-
-#uart = busio.UART(board.TX, board.RX, baudrate=9600)
-
 # For use with Raspberry Pi/Linux:
 uart = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=0.25)
 
-# For use with USB-to-serial cable:
-# import serial
-# uart = serial.Serial("/dev/ttyUSB0", baudrate=9600, timeout=0.25)
-
-buffer = []
-
-while True:
+def defindData():
+    buffer = []
     data = uart.read(32)  # read up to 32 bytes
     data = list(data)
     # print("read: ", data)          # this is a bytearray type
@@ -77,72 +63,63 @@ while True:
 
     while buffer and buffer[0] != 0x42:
         buffer.pop(0)
+    dust=None
+    for i in range(1):
+        if len(buffer) > 200:
+            buffer = []  # avoid an overrun if all bad data
 
-    if len(buffer) > 200:
-        buffer = []  # avoid an overrun if all bad data
-    if len(buffer) < 32:
-        continue
+        if len(buffer) < 32:
+            continue
 
-    if buffer[1] != 0x4d:
-        buffer.pop(0)
-        continue
+        if buffer[1] != 0x4d:
+            buffer.pop(0)
+            continue
 
-    frame_len = struct.unpack(">H", bytes(buffer[2:4]))[0]
-    if frame_len != 28:
-        buffer = []
-        continue
+        frame_len = struct.unpack(">H", bytes(buffer[2:4]))[0]
+        if frame_len != 28:
+            buffer = []
+            continue
 
-    frame = struct.unpack(">HHHHHHHHHHHHHH", bytes(buffer[4:]))
+        frame = struct.unpack(">HHHHHHHHHHHHHH", bytes(buffer[4:]))
 
-    pm10_standard, pm25_standard, pm100_standard, pm10_env, \
-        pm25_env, pm100_env, particles_03um, particles_05um, particles_10um, \
-        particles_25um, particles_50um, particles_100um, skip, checksum = frame
+        pm10_standard, pm25_standard, pm100_standard, pm10_env, \
+            pm25_env, pm100_env, particles_03um, particles_05um, particles_10um, \
+            particles_25um, particles_50um, particles_100um, skip, checksum = frame
 
-    check = sum(buffer[0:30])
+        check = sum(buffer[0:30])
 
-    # PMS5003
-    if check != checksum:
-        buffer = []
-        continue
-    print("Concentration Units (standard)")
-    print("---------------------------------------")
-    print("PM 1.0: %d\tPM2.5: %d\tPM10: %d" %
-              (pm10_standard, pm25_standard, pm100_standard))
-    print("Concentration Units (environmental)")
-    print("---------------------------------------")
-    print("PM 1.0: %d\tPM2.5: %d\tPM10: %d" % (pm10_env, pm25_env, pm100_env))
-    print("---------------------------------------")
-    print("Particles > 0.3um / 0.1L air:", particles_03um)
-    print("Particles > 0.5um / 0.1L air:", particles_05um)
-    print("Particles > 1.0um / 0.1L air:", particles_10um)
-    print("Particles > 2.5um / 0.1L air:", particles_25um)
+        if check != checksum:
+            buffer = []
+            continue
+
+        dust={
+        'PM 1.0':pm10_standard,
+        'PM 2.5':pm25_standard,
+        'PM 10':pm100_standard,
+        "Particles > 0.3um / 0.1L air:": particles_03um,
+        "Particles > 0.5um / 0.1L air:": particles_05um,
+        "Particles > 1.0um / 0.1L air:": particles_10um,
+        "Particles > 2.5um / 0.1L air:": particles_25um
+        }
     
     buffer = buffer[32:]
     
     # Temperature
     c, f = parse_temperature()
-    print("---------------------------------------")
-    print('溫度為攝氏 {:.2f} 度，華氏 {:.2f} 度'.format(c, f))
-    print("---------------------------------------")
-        
+
+    airtemperature={
+    "temperatureC": c,
+    "temperatureF": f
+  }
     # soil
     GPIO.add_event_callback(channel, callback)  # assign function to GPIO PIN, Run function on change
-    time.sleep(1)
-# Concentration Units (standard)
-# ---------------------------------------
-# PM 1.0: 2   PM2.5: 3    PM10: 4
-# Concentration Units (environmental)
-# ---------------------------------------
-# PM 1.0: 2   PM2.5: 3    PM10: 4
-# ---------------------------------------
-# Particles > 0.3um / 0.1L air: 468
-# Particles > 0.5um / 0.1L air: 141
-# Particles > 1.0um / 0.1L air: 18
-# Particles > 2.5um / 0.1L air: 3
-# ---------------------------------------
-# 溫度為攝氏 28.69 度，華氏 83.64 度
-# ---------------------------------------
-# Water Detected!
-# ---------------------------------------
-# Water not Detected!
-# ---------------------------------------
+
+    return {
+        "id": "node-01",
+        "status": "active",
+        "DustSensor":dust,
+        "AirTemperature": airtemperature,
+        "SoilMoistureSensor": waterStatus
+        }
+
+print(defindData())
