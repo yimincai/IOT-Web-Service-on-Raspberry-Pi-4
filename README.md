@@ -22,6 +22,7 @@ This project will used flask to return the sensors data to "http://yourip/node-0
 - Download the project to /home/pi/ and unzip the project
 ```bash
 $ cd /home/pi
+$ sudo apt-get install unzip
 $ wget https://github.com/yimincai/IOT-Web-Service-on-Raspberry-Pi-4/archive/master.zip
 $ unzip IOT-Web-Service-on-Raspberry-Pi-4-master.zip
 ```
