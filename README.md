@@ -21,7 +21,9 @@ This project will used flask to return the sensors data to "http://yourip/node-0
 - Download and install Python 3 on [Official Website](https://www.python.org/downloads/)
 - Download the project to /home/pi/ and unzip the project
 ```bash
-$ unzip projectName.zip
+$ cd /home/pi
+$ wget https://github.com/yimincai/IOT-Web-Service-on-Raspberry-Pi-4/archive/master.zip
+$ unzip IOT-Web-Service-on-Raspberry-Pi-4-master.zip
 ```
 - Install require libs:
 ```bash
