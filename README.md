@@ -15,10 +15,14 @@ This project will used flask to return the sensors data to "http://yourip/node-0
 ### Software
 - Linux OS
 - Python 3
-- flask, RPI.GPIO, board, serial, adafruit-blinka
+- flask, RPI.GPIO, board, serial, adafruit-blinka, unzip
 
 ## Usage
 - Download and install Python 3 on [Official Website](https://www.python.org/downloads/)
+- Download the project to /home/pi/ and unzip the project
+```bash
+$ unzip projectName.zip
+```
 - Install require libs:
 ```bash
 $ pip install flask RPi.GPIO board serial adafruit-blinka
