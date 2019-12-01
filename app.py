@@ -5,6 +5,11 @@ import sensors
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
+@app.after_request
+def add_security_headers(resp):
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+
 @app.route("/node-01", methods=['GET'])
 def node01Data():
 
