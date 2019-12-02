@@ -2,7 +2,7 @@
 
 ## Abstract
 
-This project will used flask to return the sensors data to "http://your-ip/node-01" as a web service in JSON type.
+This project will use flask to return the sensors data to "http://your-ip/node-01" as a web service in JSON type.
 
 ## Requirement
 
