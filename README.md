@@ -2,7 +2,7 @@
 
 ## Abstract
 
-This project will used flask to return the sensors data to "http://yourip/node-01" as a web service in JSON type.
+This project will used flask to return the sensors data to "http://your-ip/node-01" as a web service in JSON type.
 
 ## Requirement
 
@@ -28,7 +28,8 @@ $ unzip IOT-Web-Service-on-Raspberry-Pi-4-master.zip
 ```
 - Install require libs:
 ```bash
-$ pip install flask RPi.GPIO board serial adafruit-blinka
+$ pip install flask RPi.GPIO board serial
+$ pip3 install adafruit-blinka
 ```
 - Download the project to /home/pi
 - add this line to ```/ect/profile``` to let project auto run on boot
@@ -38,7 +39,7 @@ $ sudo python3 /home/pi/Sensors/app.py &
 - Change python files permission 
 ```bash
 $ sudo chmod 777 /home/pi/Sensors/app.py 
-$ sudo chmod 777 /home/pi/Sensor/sensors.py
+$ sudo chmod 777 /home/pi/Sensors/sensors.py
 ```
 - Reboot your Raspberry Pi 4 to test the service
 ```bash
