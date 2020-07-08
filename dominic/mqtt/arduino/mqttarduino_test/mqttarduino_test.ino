@@ -9,12 +9,12 @@
 
 
 // Replace the next variables with your SSID/Password combination
-const char* ssid = "freedomnatsumi";
-const char* password = "23924505";
+const char* ssid = "";
+const char* password = "";
 
 // Add your MQTT Broker IP address, example:
-//const char* mqtt_server = "10.42.0.1";
-const char* mqtt_server = "10.42.0.1";
+//const char* mqtt_server = "";
+const char* mqtt_server = "";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
