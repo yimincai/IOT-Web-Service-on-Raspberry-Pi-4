@@ -1,4 +1,0 @@
-{"pmcf10", "pmcf25", "pmcf100", "pmat10", "pmat25", "pmat100", "pmcount03", "pmcount05",
-"pmcount10", "pmcount25", "Temperature", "Humidity"};
-
-http://maker.tn.edu.tw/uploads/tad_book3/file/PMS5003T_V2.2%20.pdf

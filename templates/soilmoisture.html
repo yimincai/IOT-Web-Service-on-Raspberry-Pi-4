@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<h1 class="pt-2">所有濕度值</h1>
+<ul class="list-group pt-3">
+
+    <li class="list-group-item" >濕度1:<span id="esp11">{{ esp11|safe }}</span></li>
+    <li class="list-group-item" >濕度2:<span id="esp12">{{ esp12|safe }}</span></li>
+    <li class="list-group-item" >濕度3:<span id="esp21">{{ esp21|safe }}</span></li>
+    <li class="list-group-item" >濕度4:<span id="esp22">{{ esp22|safe }}</span></li>
+    <li class="list-group-item" >濕度5:<span id="esp31">{{ esp31|safe }}</span></li>
+    <li class="list-group-item" >濕度6:<span id="esp32">{{ esp32|safe }}</span></li>
+    <li class="list-group-item" >濕度7:<span id="esp41">{{ esp41|safe }}</span></li>
+    <li class="list-group-item" >濕度8:<span id="esp42">{{ esp42|safe }}</span></li>
+    
+</ul>
+<script>
+
+
+
+
+$(document).ready(function () {
+    setInterval(function(){ 
+        $.ajax({
+            type: "GET",
+            url: "{% url 'greenapp:soilmoisture' %}",
+            success: function (response) {
+                for(var esp in response){
+                    $("#"+esp).html(response[esp]);
+                }
+            }
+        });
+    }, 5000);
+});
+
+
+</script>
+
+{% endblock content %}

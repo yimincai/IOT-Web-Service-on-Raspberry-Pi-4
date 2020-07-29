@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navbar %}
+ <li class="nav-item">
+                        <a class="nav-link text-light" href="camera">Camera</i></a>
+                    </li>   
+                     <li class="nav-item">
+                        <a class="nav-link text-light" href="row1">Row1</i></a>
+                    </li>   
+                     <li class="nav-item">
+                        <a class="nav-link text-light" href="row2">Row2</i></a>
+                    </li> 
+                     <li class="nav-item">
+                        <a class="nav-link text-primary" href="temperature">Temperature</i></a>
+                    </li> 
+                     <li class="nav-item">
+                        <a class="nav-link text-light" href="airdust">Air Dust Particals</i></a>
+                    </li> 
+                       <li class="nav-item">
+                        <a class="nav-link text-light" href="controlmotor">Control Motor</i></a>
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="history">History</i></a>
+                    </li>  
+                  
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="logout">Logout</i></a>
+                    </li>  
+
+{% endblock navbar %}
+{% block content %}
+  <br>
+    <div class="container">
+        <h5>Soil TemperatureC <h5>
+    </div>
+
+    <div class="container" style="height:300px; width:auto;">
+        <div id="tempc" class="shadow" style="height:300px; width:auto;">
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <h5>Soil TemperatureF <h5>
+    </div>
+    
+    <div class="container" style="height:300px; width:auto;">
+        <div id="tempf" class="shadow" style="height:300px; width:auto;">
+        </div>
+    </div> 
+    
+
+
+<script >
+
+var endpoint = 'temp';
+var tempc = 0;
+var temperatureC = document.getElementById('tempc');
+var myChart = echarts.init(temperatureC);
+function reload1()
+    {
+        $.ajax({
+        type: "GET",
+        url: endpoint,
+
+            success: function (data)
+                {
+                 
+                    tempc=data.block_4.esp41.TemperatureSensor.temperatureC;
+                    
+                }
+        });
+    }
+    
+        reload1();
+        
+        option2 = {
+            tooltip: {
+                formatter: '{a} <br/>{b} : {c}%'
+            },
+            series: [
+                {
+                    name: "TemperatureC",
+                    type: 'gauge',
+                    detail: {formatter: '{value}'},
+                                        
+                    data: [{value:tempc, name: 'TemperatureC'}]
+                }
+            ]
+        };       
+        
+        setInterval(function () {
+            option2.series[0].data[0].value = tempc;
+            myChart.setOption(option2, true);
+        },100);
+        if (option2 && typeof option2 === "object") {
+            myChart.setOption(option2, true);
+        }
+    </script>
+
+    <!---Temperature in Fahrenheit-->    
+ <script >
+    var endpoint = 'temp';
+    var tempf = 0;
+    var temperaturef = document.getElementById('tempf');
+    var myChart2 = echarts.init(temperaturef);
+    function reload2(){
+            $.ajax({
+            type: "GET",
+            url: endpoint,
+            
+
+            success: function (data) 
+            {         
+            tempf=data.block_4.esp41.TemperatureSensor.temperatureF;
+                option = {
+                tooltip: {
+                formatter: '{a} <br/>{b} : {c}%'
+                },
+                series: [
+                        {
+                            name: "TemperatureF",
+                            type: 'gauge',
+                            detail: {formatter: '{value}'},
+        
+                            data: [{value:tempf, name: 'TemperatureF'}]
+                        }
+                    ]
+                };                      
+                setInterval(function () {
+                    option.series[0].data[0].value = tempf;
+                    myChart2.setOption(option, false);
+                },100);
+                if (option && typeof option === "object") {
+                    myChart2.setOption(option,false);
+                }
+            }
+         });
+    }
+    reload2()
+</script>
+
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    {% endblock content %}

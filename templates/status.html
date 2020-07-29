@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<h1 class="pt-2">所有感測器的狀態</h1>
+<ul class="list-group pt-3">
+<li class="list-group-item" id="esp11">{{ esp11|safe }}</li>
+<li class="list-group-item" id="esp12">{{ esp21|safe }}</li>
+<li class="list-group-item" id="esp21">{{ esp21|safe }}</li>
+<li class="list-group-item" id="esp22">{{ esp22|safe }}</li>
+<li class="list-group-item" id="esp31">{{ esp31|safe }}</li>
+<li class="list-group-item" id="esp32">{{ esp32|safe }}</li>
+<li class="list-group-item" id="esp41">{{ esp41|safe }}</li>
+<li class="list-group-item" id="esp42">{{ esp42|safe }}</li>
+    
+</ul>
+<script>
+$(document).ready(function () {
+    setInterval(function(){ 
+        $.ajax({
+            type: "GET",
+            url: "{% url 'greenapp:status' %}",
+            success: function (response) {
+                for(var esp in response){
+                    $("#"+esp).html(response[esp]);
+                }
+            }
+        });
+    }, 5000);
+});
+
+
+</script>
+
+{% endblock content %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navbar %}
+ <li class="nav-item">
+                        <a class="nav-link text-light" href="camera">Camera</i></a>
+                    </li>   
+                     <li class="nav-item">
+                        <a class="nav-link text-light" href="row1">Row1</i></a>
+                    </li>   
+                     <li class="nav-item">
+                        <a class="nav-link text-light" href="row2">Row2</i></a>
+                    </li> 
+                     <li class="nav-item">
+                        <a class="nav-link text-light" href="temperature">Temperature</i></a>
+                    </li> 
+                     <li class="nav-item">
+                        <a class="nav-link text-light" href="airdust">Air Dust Particals</i></a>
+                    </li> 
+                       <li class="nav-item">
+                        <a class="nav-link text-light" href="controlmotor">Control Motor</i></a>
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link text-primary" href="history">History</i></a>
+                    </li>  
+                  
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="logout">Logout</i></a>
+                    </li>  
+
+{% endblock navbar %}
+   {% block content %}
+         
+     
+         <div class="container mt-4 "id="chart" style="width:80%; height:300px; ">
+         
+           
+    
+        </div>
+        
+     
+     <script src="{% static 'jQuery.js' %}"></script> 
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+    <script src=" {% static 'echarts.js' %}"></script>
+    <script>
+  
+    var dom = document.getElementById("chart");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    option = {
+      title:{
+        text:'soilmoisture row 1'
+      },
+    xAxis: {
+        type: 'category',
+        data: ['mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        data: [20, 32, 01, 34,90, 30, 20],
+        type: 'line'
+    }]
+};
+;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+</script>
+   
+   {% endblock content %}

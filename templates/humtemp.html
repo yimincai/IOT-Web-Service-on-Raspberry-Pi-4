@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<h1 class="pt-2">所有濕度值</h1>
+<ul class="list-group pt-3">
+    <li class="list-group-item" >PM10:<span id="PM10">{{ PM10|safe }}</span></li>
+    <li class="list-group-item" >PM25:<span id="PM25">{{ PM25|safe }}</span></li>
+    <li class="list-group-item" >PM100:<span id="PM100">{{ PM100|safe }}</span></li>
+    <li class="list-group-item" >P03:<span id="P03">{{ P03|safe }}</span></li>
+    <li class="list-group-item" >P05:<span id="P05">{{ P05|safe }}</span></li>
+    <li class="list-group-item" >P10:<span id="P10">{{ P10|safe }}</span></li>
+    <li class="list-group-item" >P25:<span id="P25">{{ P25|safe }}</span></li>
+    <li class="list-group-item" >溫度1:<span id="temperature1">{{ temperature1|safe }}</span></li>
+    <li class="list-group-item" >溫度2:<span id="temperature2">{{ temperature2|safe }}</span></li>
+    <li class="list-group-item" >濕度:<span id="humidity">{{ humidity|safe }}</span></li>
+    
+    
+</ul>
+<script>
+
+
+
+
+$(document).ready(function () {
+    setInterval(function(){ 
+        $.ajax({
+            type: "GET",
+            url: "{% url 'greenapp:humtemp' %}",
+            success: function (response) {
+                for(var item in response){
+                    $("#"+item).html(response[item]);
+                }
+            }
+        });
+    }, 5000);
+});
+
+
+</script>
+
+{% endblock content %}

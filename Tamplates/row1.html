@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navbar %}
+ <li class="nav-item">
+                        <a class="nav-link text-light" href="camera">Camera</i></a>
+                    </li>   
+                     <li class="nav-item">
+                        <a class="nav-link text-primary" href="row1">Row1</i></a>
+                    </li>   
+                     <li class="nav-item">
+                        <a class="nav-link text-light" href="row2">Row2</i></a>
+                    </li> 
+                     <li class="nav-item">
+                        <a class="nav-link text-light" href="temperature">Temperature</i></a>
+                    </li> 
+                     <li class="nav-item">
+                        <a class="nav-link text-light" href="airdust">Air Dust Particals</i></a>
+                    </li> 
+                       <li class="nav-item">
+                        <a class="nav-link text-light" href="controlmotor">Control Motor</i></a>
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="history">History</i></a>
+                    </li>  
+                  
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="logout">Logout</i></a>
+                    </li>  
+
+{% endblock navbar %}
+
+
+{% block content %}
+<div class="container" style="height:300px; width:auto;">
+   <div class="shadow  "id="ESP11" style="height:320px; width:auto">
+      
+   </div>  
+  <div class="shadow  "id="ESP12" style="height:320px; width:auto;">
+      
+   </div>     
+   <div class="shadow  "id="ESP21" style="height:320px; width:auto;">
+      
+   </div>    
+   <div class="shadow  "id="ESP22" style="height:320px; width:auto;">
+      
+   </div>   
+</div>
+        
+     
+     <script src="{% static 'jQuery.js' %}"></script> 
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+ 
+    <script src=" {% static 'echarts.js' %}">
+      
+    </script>
+<script >
+    var endpoint = 'temp';
+    var s1 = 0;
+    var esp11= document.getElementById('ESP11');
+    var myChart = echarts.init(esp11);
+    function reload(){
+            $.ajax({
+            type: "GET",
+            url: endpoint,
+            
+
+            success: function (data) 
+            {         
+            s1=data.block_1.esp11.SoilMoistureSensor.value;
+                option = {
+                tooltip: {
+                formatter: '{a} <br/>{b} : {c}%'
+                },
+                series: [
+                        {
+                            name: "ESP11",
+                            type: 'gauge',
+                            detail: {formatter: '{value}%'},
+        
+                            data: [{value:s1, name: 'ESP11'}]
+                        }
+                    ]
+                };                      
+                setInterval(function () {
+                    option.series[0].data[0].value = s1;
+                    myChart.setOption(option, false);
+                },100);
+                if (option && typeof option === "object") {
+                    myChart.setOption(option,false);
+                }
+            }
+         });
+    }
+    reload()
+</script>
+<script >
+    var endpoint = 'temp';
+    var s2 = 0;
+    var esp12= document.getElementById('ESP12');
+    var myChart2 = echarts.init(esp12);
+    function reload2(){
+            $.ajax({
+            type: "GET",
+            url: endpoint,
+            
+
+            success: function (data) 
+            {         
+             s2=data.block_1.esp12.SoilMoistureSensor.value;
+                option2 = {
+                tooltip: {
+                formatter: '{a} <br/>{b} : {c}%'
+                },
+                series: [
+                        {
+                            name: "ESP12",
+                            type: 'gauge',
+                            detail: {formatter: '{value}%'},
+        
+                            data: [{value:s2, name: 'ESP12'}]
+                        }
+                    ]
+                };                      
+                setInterval(function () {
+                    option2.series[0].data[0].value = s2;
+                    myChart2.setOption(option2, false);
+                },100);
+                if (option2 && typeof option2 === "object") {
+                    myChart2.setOption(option2,false);
+                }
+            }
+         });
+    }
+    reload2()
+</script>
+<script >
+    var endpoint = 'temp';
+    var s3 = 0;
+    var esp21= document.getElementById('ESP21');
+    var myChart3 = echarts.init(esp21);
+    function reload3(){
+            $.ajax({
+            type: "GET",
+            url: endpoint,
+            
+
+            success: function (data) 
+            {         
+            s3=data.block_2.esp21.SoilMoistureSensor.value;
+                option3 = {
+                tooltip: {
+                formatter: '{a} <br/>{b} : {c}%'
+                },
+                series: [
+                        {
+                            name: "ESP21",
+                            type: 'gauge',
+                            detail: {formatter: '{value}%'},
+        
+                            data: [{value:s3, name: 'ESP21'}]
+                        }
+                    ]
+                };                      
+                setInterval(function () {
+                    option3.series[0].data[0].value = s3;
+                    myChart3.setOption(option3, false);
+                },100);
+                if (option3 && typeof option3 === "object") {
+                    myChart3.setOption(option3,false);
+                }
+            }
+         });
+    }
+    reload3()
+</script>
+<script >
+    var endpoint = 'temp';
+    var s4 = 0;
+    var esp22= document.getElementById('ESP22');
+    var myChart4 = echarts.init(esp22);
+    function reload4(){
+            $.ajax({
+            type: "GET",
+            url: endpoint,
+            
+
+            success: function (data) 
+            {         
+             s4=data.block_2.esp22.SoilMoistureSensor.value;
+                option4 = {
+                tooltip: {
+                formatter: '{a} <br/>{b} : {c}%'
+                },
+                series: [
+                        {
+                            name: "ESP22",
+                            type: 'gauge',
+                            detail: {formatter: '{value}%'},
+        
+                            data: [{value:s2, name: 'ESP22'}]
+                        }
+                    ]
+                };                      
+                setInterval(function () {
+                    option4.series[0].data[0].value = s4;
+                    myChart4.setOption(option4, false);
+                },100);
+                if (option4 && typeof option4 === "object") {
+                    myChart4.setOption(option4,false);
+                }
+            }
+         });
+    }
+    reload4()
+</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+
+{% endblock content %}

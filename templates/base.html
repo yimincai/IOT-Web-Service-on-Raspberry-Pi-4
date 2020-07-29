@@ -1,0 +1,83 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>望鄉溫室</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href=" {% static 'bs/css/bootstrap.min.css' %}">
+    <script src=" {% static 'jquery-3.5.1.min.js' %}"></script>
+    <script src=" {% static 'bs/js/bootstrap.min.js' %} "></script>
+    <script src=" {% static 'echarts.js' %}"></script>
+{% comment %} 
+    <script type="text/JavaScript">
+
+        function AutoRefresh( t ) { setTimeout("location.reload(true);", t); } {% comment %} onload = "JavaScript:AutoRefresh(15000);" 
+    </script> {% endcomment %}
+</head>
+
+
+<body>
+    {% block navbar %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-success">
+        <a class="navbar-brand" href="{% url 'greenapp:status' %}">Green House</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                
+
+                {% comment %} <li class="nav-item">
+                    <a class="nav-link text-light" href="camera">攝像頭</i></a>
+                </li> {% endcomment %}
+                {% comment %} <li class="nav-item">
+                    <a class="nav-link text-light" href="controlmotor">Control Motor</i></a>
+                </li> {% endcomment %}
+                
+
+
+                <li class="nav-item">
+                    <a class="nav-link text-light" href=" {% url 'greenapp:soilmoisture' %}">土壤濕度</i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href=" {% url 'greenapp:humtemp' %}">溫濕度</i></a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="logout">登出</i></a>
+                </li>
+                
+            </ul>
+        </div>
+    </nav>
+
+    {% endblock navbar %}
+    <div class="container-fluid">
+    
+        {% block content %}
+        
+        
+        
+        {% endblock content %}
+    
+    </div>
+
+    
+
+
+ 
+        
+
+
+
+   
+    
+</body>
+
+</html>

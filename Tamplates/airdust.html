@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navbar %}
+ <li class="nav-item">
+                        <a class="nav-link text-light" href="camera">Camera</i></a>
+                    </li>   
+                     <li class="nav-item">
+                        <a class="nav-link text-light" href="row1">Row1</i></a>
+                    </li>   
+                     <li class="nav-item">
+                        <a class="nav-link text-light" href="row2">Row2</i></a>
+                    </li> 
+                     <li class="nav-item">
+                        <a class="nav-link text-light" href="temperature">Temperature</i></a>
+                    </li> 
+                     <li class="nav-item">
+                        <a class="nav-link text-primary" href="airdust">Air Dust Particals</i></a>
+                    </li> 
+                       <li class="nav-item">
+                        <a class="nav-link text-light" href="controlmotor">Control Motor</i></a>
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="history">History</i></a>
+                    </li>  
+                  
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="logout">Logout</i></a>
+                    </li>  
+
+{% endblock navbar %}
+    {% block content %}
+     
+            
+           <div class="container" style="height:280px; width:auto">
+                <br>
+                <div class="shadow " style="height:280px; width:auto" id='air'>
+                </div> 
+                <br>
+                <div class="shadow " style="height:280px; width:auto;" id='air2'>
+                </div> 
+                <br>
+                <div class="shadow " style="height:280px; width:auto;" id='air3'>
+                </div>   
+            </div>
+            <br>
+           
+                   
+        <script src="{% static 'jQuery.js' %}"></script>
+        <script src="{% static 'echarts.js' %}"></script>      
+        <script>
+        var endpoint = 'temp';
+        var pm03;
+        var pm50;
+        var pm10;
+       
+        var dom = document.getElementById("air");
+        var myChart = echarts.init(dom);
+        function reload1()
+        {
+            $.ajax({
+                type:"GET",
+                url:endpoint,
+
+                success: function (data) 
+                {
+                    console.log(data);
+                    
+                    pm03=data.block_4.esp41.AirSensor.PM03;
+                    pm05=data.block_4.esp41.AirSensor.PM05;
+                    pm10=data.block_4.esp41.AirSensor.PM10;
+                    option = 
+                    {
+                      
+                         title:{
+                            text:'Air dust Particals',
+                          },
+                        xAxis: {
+                            type: 'category',
+                            data: ['PM0.3', 'PM0.5', 'PM1.0'],
+                            axisLabel:{
+                            fontSize:9
+                            }
+                            
+                        },
+                        yAxis: {
+                            type: 'value',
+                            min:0,
+                            
+                            axisLabel:{
+                                fontSize:9
+                            },
+                           
+                        },
+                        series: [{
+                            data: [pm03,pm05,pm10],
+                            type: 'bar',
+                            barMaxWidth: 45,
+                        }],
+                   
+                   
+                    };
+
+                
+                    if (option && typeof option === "object") 
+                    {
+                        myChart.setOption(option, true);
+                    }
+              
+                },
+                error:function(error_data){
+                    console.log(error_data);
+                    console.log("data");
+                }
+
+            });
+        }
+        reload1();
+    </script>
+    <script>
+        var endpoint = 'temp';
+        var pm25;
+        var pm50;
+        var pm100;
+        var dom2 = document.getElementById("air2");
+        var myChart2 = echarts.init(dom2);
+        function reload2()
+        {
+            $.ajax({
+                type:"GET",
+                url:endpoint,
+
+                success: function (data) 
+                {
+                    console.log(data);
+                    
+                    pm50=data.block_4.esp41.AirSensor.PM50;
+                    pm25=data.block_4.esp41.AirSensor.PM25;
+                    pm100=data.block_4.esp41.AirSensor.PM100;
+                    option2 = 
+                    {
+                         title:{
+                            text:'Air dust Particals',
+                          },
+                        xAxis: {
+                            type: 'category',
+                            data: ['PM 2.5','PM 5.0','PM 10'],
+                          
+                        },
+                        yAxis: {
+                            type: 'value',
+                            min:0,
+                             axisLabel:{
+                                fontSize:9
+                            },
+                            
+                        },
+                        series: [{
+                            data: [pm25,pm50,pm100],
+                            type: 'bar',
+                            barMaxWidth: 45,
+                        }],
+                   
+                   
+                    };
+
+                
+                    if (option2 && typeof option2 === "object") 
+                    {
+                        myChart2.setOption(option2, true);
+                    }
+              
+                },
+                error:function(error_data){
+                    console.log(error_data);
+                    console.log("data");
+                }
+
+            });
+        }
+        reload2();
+        </script>
+         <script>
+        var endpoint = 'temp';
+        var humidity;
+        var temperature;
+        
+        var dom3 = document.getElementById("air3");
+        var myChart3 = echarts.init(dom3);
+        function reload3()
+        {
+            $.ajax({
+                type:"GET",
+                url:endpoint,
+
+                success: function (data) 
+                {
+                    console.log(data);
+                    
+                    temperature=data.block_4.esp41.AirSensor.temperature;
+                    humidity=data.block_4.esp41.AirSensor.humidity;
+                    
+                    option3 = 
+                    {
+                         title:{
+                            text:'Temperature & Humidity',
+                          },
+                        xAxis: {
+                            type: 'category',
+                            data: ['Temperature','humidity'],
+
+                        },
+                        yAxis: {
+                            type: 'value',
+                            min:0,
+                            axisLabel:{
+                                fontSize:9
+                            },
+                            
+                        },
+                        series: [{
+                            data: [temperature,humidity],
+                            type: 'bar',
+                            barMaxWidth: 45,
+                        }],
+                   
+                   
+                    };
+
+                
+                    if (option3 && typeof option3 === "object") 
+                    {
+                        myChart3.setOption(option3, true);
+                    }
+              
+                },
+                error:function(error_data){
+                    console.log(error_data);
+                    console.log("data");
+                }
+
+            });
+        }
+        reload3();
+        </script>
+      
+        {% endblock content %}
+           

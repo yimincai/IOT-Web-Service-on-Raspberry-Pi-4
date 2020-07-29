@@ -1,5 +1,0 @@
-https://www.ev3dev.org/docs/tutorials/sending-and-receiving-messages-with-mqtt/
-
-https://randomnerdtutorials.com/esp32-mqtt-publish-subscribe-arduino-ide/
-
-http://www.steves-internet-guide.com/into-mqtt-python-client/
